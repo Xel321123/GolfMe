@@ -427,20 +427,6 @@
             }, () => { alert('GPS-fel.'); }, { enableHighAccuracy: true, timeout: 5000 });
         }
 
-        function undoLastShot() {
-            if (shots.length === 0) { alert("Det finns inga slag att ångra."); return; }
-            if (confirm("Vill du ta bort det allra senaste registrerade slaget?")) {
-                shots.pop();
-                localStorage.setItem('golf_current_shots', JSON.stringify(shots));
-                document.getElementById('shot-creation-section').classList.remove('hidden');
-                document.getElementById('shot-landing-section').classList.add('hidden');
-                document.getElementById('putt-section').classList.add('hidden');
-                currentSelection = { club: null, quality: null, result: null, putts: 2, puttDist: null };
-                document.querySelectorAll('button').forEach(b => b.classList.remove('selected', 'blue-selected'));
-                updateLog();
-            }
-        }
-
         function updateLog() {
             const logDiv = document.getElementById('log');
             let parText = holePars[currentHole] ? `(Par ${holePars[currentHole]})` : '(Par ej valt)';
