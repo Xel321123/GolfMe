@@ -520,45 +520,47 @@
         }
 
         function exportSingleRound(roundId) {
-            let round = archivedRounds.find(r => r.id === roundId);
-            if(!round) return;
-            
-            // Återinförda kolumner för felmarginaler i CSV-exporten
-            let csv = "Bana,Datum,Hal,Hal_Par,SlagNummer,Klubba,Traff,Langd(m),StartGPS_Felmarginal(m),SlutGPS_Felmarginal(m),TotalMaxAvvikelse(m),Landningslage,FIR,GIR,AntalPuttar,PuttDistans\n";
-            
-            round.data.forEach(s => {
-                let p = s.par || 4;
-                let fir = "N/A";
-                let gir = "NEJ";
-                
-                if (p > 3 && s.shotNum === 1) {
-                    fir = s.result === 'Fairway' ? "JA" : "NEJ";
-                }
-                
-                let allShotsThisHole = round.data.filter(x => x.hole === s.hole);
-                let greenShot = allShotsThisHole.find(x => x.result === 'Green');
-                let maxGirShots = p - 2;
-                
-                if (greenShot && greenShot.shotNum <= maxGirShots) {
-                    gir = "JA";
-                } else if (!greenShot && allShotsThisHole.some(x => x.putts !== undefined)) {
-                    let totalBeforePutt = allShotsThisHole.length;
-                    if(totalBeforePutt <= maxGirShots) gir = "JA";
-                }
-                
-                let totalError = (s.startAcc || 0) + (s.endAcc || 0);
-                
-                csv += `"${round.course}",${round.date},${s.hole},${p},${s.shotNum},${s.club},${s.quality},${s.calculatedDistance},${s.startAcc || 0},${s.endAcc || 0},${totalError},${s.result || ''},${fir},${gir},${s.putts || ''},${s.puttDist || ''}\n`;
-            });
-            
-            let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.setAttribute("download", `golf_${round.course.replace(/\s+/g, '_')}_${round.date}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+    let round = archivedRounds.find(r => r.id === roundId);
+    if(!round) return;
+    
+    // Nya kolumner för exakta GPS-koordinater tilllagda i headern
+    let csv = "Bana,Datum,Hal,Hal_Par,SlagNummer,Klubba,Traff,Langd(m),Start_Lat,Start_Lon,Slut_Lat,Slut_Lon,StartGPS_Felmarginal(m),SlutGPS_Felmarginal(m),TotalMaxAvvikelse(m),Landningslage,FIR,GIR,AntalPuttar,PuttDistans\n";
+    
+    round.data.forEach(s => {
+        let p = s.par || 4;
+        let fir = "N/A";
+        let gir = "NEJ";
+        
+        if (p > 3 && s.shotNum === 1) {
+            fir = s.result === 'Fairway' ? "JA" : "NEJ";
         }
+        
+        let allShotsThisHole = round.data.filter(x => x.hole === s.hole);
+        let greenShot = allShotsThisHole.find(x => x.result === 'Green');
+        let maxGirShots = p - 2;
+        
+        if (greenShot && greenShot.shotNum <= maxGirShots) {
+            gir = "JA";
+        } else if (!greenShot && allShotsThisHole.some(x => x.putts !== undefined)) {
+            let totalBeforePutt = allShotsThisHole.length;
+            if(totalBeforePutt <= maxGirShots) gir = "JA";
+        }
+        
+        let totalError = (s.startAcc || 0) + (s.endAcc || 0);
+        
+        // Här matar vi in koordinaterna (s.startLat, s.startLon, etc.) i dataraderna
+        csv += `"${round.course}",${round.date},${s.hole},${p},${s.shotNum},${s.club},${s.quality},${s.calculatedDistance},${s.startLat || ''},${s.startLon || ''},${s.endLat || ''},${s.endLon || ''},${s.startAcc || 0},${s.endAcc || 0},${totalError},${s.result || ''},${fir},${gir},${s.putts || ''},${s.puttDist || ''}\n`;
+    });
+    
+    let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute("download", `golf_${round.course.replace(/\s+/g, '_')}_${round.date}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+        }
+        
 
         function deleteRound(roundId) {
             if(confirm("Ta bort från telefonen permanent?")) {
