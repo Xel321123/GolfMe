@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Golf Tracker v4 - Multi-Round</title>
+    <title>Golf Tracker v4.2</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
@@ -21,78 +21,15 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             user-select: none;
         }
-        .header-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        .nav-arrow {
-            padding: 5px 15px;
-            font-size: 20px;
-            background: #333;
-        }
-        h2 { margin: 0; font-weight: 400; }
-        .gps-status {
+        .setup-section {
             text-align: center;
-            font-size: 11px;
-            color: #888;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #2d2d2d;
         }
-        .gps-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: grey;
-            margin-right: 5px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        button {
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 2px solid #333;
-            border-radius: 12px;
-            padding: 15px 5px;
-            font-size: 16px;
-            font-weight: bold;
-            touch-action: manipulation;
-            transition: background 0.1s;
-        }
-        button:active, button.selected {
-            background-color: var(--primary);
-            border-color: #fff;
-        }
-        button.blue-selected {
-            background-color: var(--accent);
-            border-color: #fff;
-        }
-        .wide-btn { grid-column: span 2; }
-        .action-btn {
-            grid-column: span 4;
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-        .danger-btn { background-color: var(--danger); }
-        .section {
-            background: var(--card-bg);
-            padding: 12px;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            border: 1px solid #2d2d2d;
-        }
-        .section-title { font-size: 12px; color: #888; text-transform: uppercase; margin-bottom: 8px; font-weight: bold;}
         .course-input {
             width: 90%;
             background: #2b2b2b;
@@ -100,14 +37,83 @@
             color: #fff;
             padding: 10px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 15px;
+            text-align: center;
+        }
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2px;
+        }
+        .nav-arrow {
+            padding: 8px 20px;
+            font-size: 20px;
+            background: #333;
+            min-width: 60px;
+        }
+        h2 { margin: 0; font-weight: bold; font-size: 24px; }
+        .gps-status {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
             margin-bottom: 10px;
         }
-        #log { font-family: monospace; font-size: 11px; max-height: 120px; overflow-y: auto; white-space: pre-wrap; }
+        .gps-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: grey;
+            margin-right: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 12px 2px;
+            font-size: 15px;
+            font-weight: bold;
+            touch-action: manipulation;
+        }
+        /* Dessa klasser gör att markeringen stannar kvar */
+        button.selected {
+            background-color: var(--primary) !important;
+            border-color: #fff !important;
+        }
+        button.blue-selected {
+            background-color: var(--accent) !important;
+            border-color: #fff !important;
+        }
+        .wide-btn { grid-column: span 2; }
+        .action-btn {
+            grid-column: span 4;
+            background-color: var(--primary);
+            color: white;
+            padding: 16px;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        .danger-btn { background-color: var(--danger); }
+        .section {
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            border: 1px solid #2d2d2d;
+        }
+        .section-title { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 6px; font-weight: bold;}
+        #log { font-family: monospace; font-size: 11px; max-height: 100px; overflow-y: auto; white-space: pre-wrap; background: #151515; padding: 5px; border-radius: 8px; }
         .hidden { display: none !important; }
         .counter { font-size: 24px; text-align: center; margin: 10px 0; font-weight: bold;}
         
-        /* Historik-lista */
         .history-item {
             display: flex;
             justify-content: space-between;
@@ -118,52 +124,53 @@
             border-radius: 8px;
             font-size: 13px;
         }
-        .history-item button {
-            padding: 5px 10px;
-            font-size: 12px;
-        }
+        .history-item button { padding: 5px 10px; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <div style="text-align: center;">
-        <input type="text" id="course-name" class="course-input" placeholder="Skriv in golfbana...">
+    <!-- GOLFBANA -->
+    <div class="setup-section">
+        <input type="text" id="course-name" class="course-input" placeholder="Ange bana...">
     </div>
 
+    <!-- HUVUDNAVIGERING HÅL -->
     <div class="header-nav">
         <button class="nav-arrow" onclick="changeHole(-1)">◀</button>
         <h2>Hål <span id="hole-number">1</span></h2>
         <button class="nav-arrow" onclick="changeHole(1)">▶</button>
     </div>
     
+    <!-- GPS STATUS -->
     <div class="gps-status">
-        <span id="gps-dot" class="gps-dot"></span> GPS Noggrannhet: <span id="gps-accuracy">Okänd</span>
+        <span id="gps-dot" class="gps-dot"></span> GPS: <span id="gps-accuracy">Söker...</span>
     </div>
 
+    <!-- STEG 1: LOGGA DET SLAG DU PRECIS SLOG -->
     <div id="shot-creation-section" class="section">
         <div class="section-title">1. Vad slog du precis?</div>
         <div class="grid" id="club-grid">
-            <button onclick="selectClub('D')">D</button>
-            <button onclick="selectClub('3W')">3W</button>
-            <button onclick="selectClub('4H')">4H</button>
-            <button onclick="selectClub('5i')">5i</button>
-            <button onclick="selectClub('6i')">6i</button>
-            <button onclick="selectClub('7i')">7i</button>
-            <button onclick="selectClub('8i')">8i</button>
-            <button onclick="selectClub('9i')">9i</button>
-            <button onclick="selectClub('PW')">PW</button>
-            <button onclick="selectClub('GW')">GW</button>
-            <button onclick="selectClub('SW')">SW</button>
-            <button onclick="selectClub('LW')">LW</button>
+            <button onclick="selectClub(this, 'D')">D</button>
+            <button onclick="selectClub(this, '3W')">3W</button>
+            <button onclick="selectClub(this, '4H')">4H</button>
+            <button onclick="selectClub(this, '5i')">5i</button>
+            <button onclick="selectClub(this, '6i')">6i</button>
+            <button onclick="selectClub(this, '7i')">7i</button>
+            <button onclick="selectClub(this, '8i')">8i</button>
+            <button onclick="selectClub(this, '9i')">9i</button>
+            <button onclick="selectClub(this, 'PW')">PW</button>
+            <button onclick="selectClub(this, 'GW')">GW</button>
+            <button onclick="selectClub(this, 'SW')">SW</button>
+            <button onclick="selectClub(this, 'LW')">LW</button>
             <button class="wide-btn" style="background-color: #2e7d32;" onclick="switchToPuttMode()">⛳ GREEN / PUTT</button>
         </div>
 
         <div class="section-title">2. Hur var träffen?</div>
         <div class="grid" id="quality-grid">
-            <button onclick="selectQuality('🔥 Bra')">🔥 Bra</button>
-            <button onclick="selectQuality('💩 Tunn')">💩 Tunn</button>
-            <button onclick="selectQuality('↪️ Slice')">↪️ Slice</button>
-            <button onclick="selectQuality('↩️ Hook')">↩️ Hook</button>
+            <button onclick="selectQuality(this, '🔥 Bra')">🔥 Bra</button>
+            <button onclick="selectQuality(this, '💩 Tunn')">💩 Tunn</button>
+            <button onclick="selectQuality(this, '↪️ Slice')">↪️ Slice</button>
+            <button onclick="selectQuality(this, '↩️ Hook')">↩️ Hook</button>
         </div>
         
         <div class="grid">
@@ -171,20 +178,22 @@
         </div>
     </div>
 
+    <!-- STEG 2: BOLLENS LANDNINGSLÄGE -->
     <div id="shot-landing-section" class="section hidden" style="border-color: var(--accent);">
         <div class="section-title" style="color: var(--accent);">3. Framme vid bollen: Var landade den?</div>
         <div class="grid" id="result-grid">
-            <button class="wide-btn" onclick="selectResult('Fairway')">⛳ Fairway</button>
-            <button class="wide-btn" onclick="selectResult('Rough Vänster')">🌲 Vänster</button>
-            <button class="wide-btn" onclick="selectResult('Rough Höger')">🌲 Höger</button>
-            <button class="wide-btn" onclick="selectResult('Bunker')">🏖️ Bunker</button>
-            <button class="wide-btn" onclick="selectResult('Plikt/Drop')">💧 Plikt</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Fairway')">⛳ Fairway</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Rough Vänster')">🌲 Vänster</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Rough Höger')">🌲 Höger</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Bunker')">🏖️ Bunker</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Plikt/Drop')">💧 Plikt</button>
         </div>
         <div class="grid">
             <button class="action-btn" style="background-color: var(--accent);" onclick="registerShotLanding()">📍 LOGGA LANDNING & NÄSTA</button>
         </div>
     </div>
 
+    <!-- GREEN / PUTTNING -->
     <div id="putt-section" class="section hidden">
         <div class="section-title">Puttning</div>
         <div class="counter">
@@ -194,23 +203,25 @@
         </div>
         <div class="section-title">Längd förstaputt</div>
         <div class="grid" id="puttdist-grid">
-            <button onclick="selectPuttDist('<2m')">&lt;2m</button>
-            <button onclick="selectPuttDist('2-4m')">2-4m</button>
-            <button onclick="selectPuttDist('5-8m')">5-8m</button>
-            <button onclick="selectPuttDist('8m+')">8m+</button>
+            <button onclick="selectPuttDist(this, '<2m')">&lt;2m</button>
+            <button onclick="selectPuttDist(this, '2-4m')">2-4m</button>
+            <button onclick="selectPuttDist(this, '5-8m')">5-8m</button>
+            <button onclick="selectPuttDist(this, '8m+')">8m+</button>
         </div>
         <div class="grid">
             <button class="action-btn" style="background-color: #1565c0;" onclick="endHole()">🏁 AVSLUTA HÅL</button>
         </div>
     </div>
 
+    <!-- MONITOR / AKTUELL LOGG -->
     <div class="section">
-        <div class="section-title">Aktuell runda (Hittills)</div>
-        <div id="log">Inga slag sparade än.</div>
-        <button class="action-btn" style="background-color: #1565c0; width:100%; font-size:16px; padding:12px; margin-bottom:10px;" onclick="archiveCurrentRound()">💾 SPARA OCH AVSLUTA RUNDAN</button>
-        <button class="wide-btn danger-btn" style="width:100%; font-size:12px; padding:6px;" onclick="clearCurrentShots()">Kassera aktuella slag</button>
+        <div class="section-title">Aktuell runda</div>
+        <div id="log">Inga slag sparade på aktuellt hål.</div>
+        <button class="action-btn" style="background-color: #1565c0; width:100%; font-size:15px; padding:12px; margin-bottom:8px;" onclick="archiveCurrentRound()">💾 SPARA OCH AVSLUTA RUNDAN</button>
+        <button class="wide-btn danger-btn" style="width:100%; font-size:11px; padding:6px;" onclick="clearCurrentShots()">Kassera aktuella slag</button>
     </div>
 
+    <!-- HISTORIKEN -->
     <div class="section">
         <div class="section-title">Sparade rundor i telefonen</div>
         <div id="history-list">Inga sparade rundor än.</div>
@@ -232,7 +243,7 @@
         if (navigator.geolocation) {
             navigator.geolocation.watchPosition((pos) => {
                 lastKnownAccuracy = Math.round(pos.coords.accuracy);
-                document.getElementById('gps-accuracy').textContent = `+/- ${lastKnownAccuracy}m`;
+                document.getElementById('gps-accuracy').textContent = `±${lastKnownAccuracy}m`;
                 const dot = document.getElementById('gps-dot');
                 if(lastKnownAccuracy <= 6) dot.style.backgroundColor = '#4caf50';
                 else if(lastKnownAccuracy <= 12) dot.style.backgroundColor = '#ffeb3b';
@@ -256,27 +267,28 @@
             updateLog();
         }
 
-        function selectClub(club) {
+        // Fixad markeringslogik
+        function selectClub(element, club) {
             document.querySelectorAll('#club-grid button').forEach(b => b.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             currentSelection.club = club;
         }
 
-        function selectQuality(q) {
+        function selectQuality(element, q) {
             document.querySelectorAll('#quality-grid button').forEach(b => b.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             currentSelection.quality = q;
         }
 
-        function selectResult(res) {
+        function selectResult(element, res) {
             document.querySelectorAll('#result-grid button').forEach(b => b.classList.remove('blue-selected'));
-            event.target.classList.add('blue-selected');
+            element.classList.add('blue-selected');
             currentSelection.result = res;
         }
 
-        function selectPuttDist(dist) {
+        function selectPuttDist(element, dist) {
             document.querySelectorAll('#puttdist-grid button').forEach(b => b.classList.remove('selected'));
-            event.target.classList.add('selected');
+            element.classList.add('selected');
             currentSelection.puttDist = dist;
         }
 
@@ -375,14 +387,12 @@
 
         function updateLog() {
             const logDiv = document.getElementById('log');
-            if (shots.length === 0) { logDiv.textContent = "Inga slag sparade på aktuellt hål."; return; }
-            
-            let html = "";
             let currentHoleShots = shots.filter(s => s.hole === currentHole);
             if(currentHoleShots.length === 0) { logDiv.textContent = "Inga slag sparade på detta hål än."; return;}
             
+            let html = "";
             currentHoleShots.forEach(s => {
-                html += `Slag #${s.shotNum}: ${s.club} (${s.quality})`;
+                html += `#${s.shotNum}: ${s.club} (${s.quality})`;
                 if(s.calculatedDistance > 0) html += ` -> ${s.calculatedDistance}m (±${s.startAcc + s.endAcc}m)`;
                 if(s.result) html += ` [Landa: ${s.result}]`;
                 if(s.putts !== undefined) html += ` (${s.putts} puttar)`;
@@ -391,42 +401,29 @@
             logDiv.textContent = html;
         }
 
-        // NY FUNKTION: Arkivera den pågående rundan till historiken
         function archiveCurrentRound() {
-            if (shots.length === 0) { alert("Det finns inga slag att spara i en runda."); return; }
-            
+            if (shots.length === 0) { alert("Det finns inga slag att spara."); return; }
             let course = document.getElementById('course-name').value || 'Okänd bana';
-            if (confirm(`Vill du slutföra och arkivera rundan på "${course}"?`)) {
-                let newRound = {
-                    id: Date.now(),
-                    date: new Date().toISOString().slice(0,10),
-                    course: course,
-                    data: shots
-                };
-                
+            if (confirm(`Vill du arkivera rundan på "${course}"?`)) {
+                let newRound = { id: Date.now(), date: new Date().toISOString().slice(0,10), course: course, data: shots };
                 archivedRounds.push(newRound);
                 localStorage.setItem('golf_archived_rounds', JSON.stringify(archivedRounds));
-                
-                // Rensa pågående runda
                 shots = [];
                 localStorage.removeItem('golf_current_shots');
                 currentHole = 1;
                 document.getElementById('hole-number').textContent = currentHole;
                 document.getElementById('course-name').value = "";
                 localStorage.removeItem('golf_course_name');
-                
-                // Återställ menyer
                 document.getElementById('shot-creation-section').classList.remove('hidden');
                 document.getElementById('shot-landing-section').classList.add('hidden');
                 document.getElementById('putt-section').classList.add('hidden');
-                
                 updateLog();
                 updateHistoryList();
             }
         }
 
         function clearCurrentShots() {
-            if(confirm("Vill du radera alla inslagna slag i den pågående rundan? (Detta rör INTE din historik)")) {
+            if(confirm("Vill du radera pågående runda?")) {
                 shots = [];
                 localStorage.removeItem('golf_current_shots');
                 currentHole = 1;
@@ -435,11 +432,7 @@
             }
         }
 
-        // Rendera listan med gamla rundor
         function updateHistoryList() {
             const histDiv = document.getElementById('history-list');
             if (archivedRounds.length === 0) { histDiv.textContent = "Inga sparade rundor än."; return; }
-            
-            histDiv.innerHTML = "";
-            // Visa senaste rundan överst
-            [...archivedRounds].reverse().forEach(round => 
+            histDiv.innerHTML
