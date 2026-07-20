@@ -435,4 +435,42 @@
         function updateHistoryList() {
             const histDiv = document.getElementById('history-list');
             if (archivedRounds.length === 0) { histDiv.textContent = "Inga sparade rundor än."; return; }
-            histDiv.innerHTML
+            histDiv.innerHTML = "";
+            [...archivedRounds].reverse().forEach(round => {
+                let item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `<div><strong>${round.date}</strong><br><span style="color:#aaa;">${round.course}</span></div><div><button style="background:#4caf50; border:none; color:white; margin-right:5px;" onclick="exportSingleRound(${round.id})">📥 CSV</button><button style="background:#f44336; border:none; color:white;" onclick="deleteRound(${round.id})">🗑️</button></div>`;
+                histDiv.appendChild(item);
+            });
+        }
+
+        function exportSingleRound(roundId) {
+            let round = archivedRounds.find(r => r.id === roundId);
+            if(!round) return;
+            let csv = "Bana,Datum,Hal,SlagNummer,Klubba,Traff,Langd(m),StartGPS_Felmarginal(m),SlutGPS_Felmarginal(m),TotalMaxAvvikelse(m),Landningslage,AntalPuttar,PuttDistans\n";
+            round.data.forEach(s => {
+                let totalError = (s.startAcc || 0) + (s.endAcc || 0);
+                csv += `"${round.course}",${round.date},${s.hole},${s.shotNum},${s.club},${s.quality},${s.calculatedDistance},${s.startAcc || 0},${s.endAcc || 0},${totalError},${s.result || ''},${s.putts || ''},${s.puttDist || ''}\n`;
+            });
+            let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.setAttribute("download", `golf_${round.course.replace(/\s+/g, '_')}_${round.date}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function deleteRound(roundId) {
+            if(confirm("Ta bort från telefonen permanent?")) {
+                archivedRounds = archivedRounds.filter(r => r.id !== roundId);
+                localStorage.setItem('golf_archived_rounds', JSON.stringify(archivedRounds));
+                updateHistoryList();
+            }
+        }
+
+        updateLog();
+        updateHistoryList();
+    </script>
+</body>
+</html>
