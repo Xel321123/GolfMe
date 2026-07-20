@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Golf Tracker v4.3 - Pro Stats</title>
+    <title>Golf Tracker v4.4 - Complete Edition</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
@@ -114,7 +114,7 @@
             border: 1px solid #2d2d2d;
         }
         .section-title { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 6px; font-weight: bold;}
-        #log { font-family: monospace; font-size: 11px; max-height: 120px; overflow-y: auto; white-space: pre-wrap; background: #151515; padding: 5px; border-radius: 8px; margin-bottom: 8px; }
+        #log { font-family: monospace; font-size: 11px; max-height: 125px; overflow-y: auto; white-space: pre-wrap; background: #151515; padding: 5px; border-radius: 8px; margin-bottom: 8px; }
         .hidden { display: none !important; }
         .counter { font-size: 24px; text-align: center; margin: 10px 0; font-weight: bold;}
         
@@ -133,20 +133,24 @@
 </head>
 <body>
 
+    <!-- GOLFBANA -->
     <div class="setup-section">
         <input type="text" id="course-name" class="course-input" placeholder="Ange bana...">
     </div>
 
+    <!-- HUVUDNAVIGERING HÅL -->
     <div class="header-nav">
         <button class="nav-arrow" onclick="changeHole(-1)">◀</button>
         <h2>Hål <span id="hole-number">1</span></h2>
         <button class="nav-arrow" onclick="changeHole(1)">▶</button>
     </div>
     
+    <!-- GPS STATUS -->
     <div class="gps-status">
         <span id="gps-dot" class="gps-dot"></span> GPS: <span id="gps-accuracy">Söker...</span>
     </div>
 
+    <!-- VÄLJ PAR FÖR HÅLET -->
     <div class="section" id="par-section">
         <div class="section-title">Välj hålets par</div>
         <div class="grid" id="par-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -156,6 +160,7 @@
         </div>
     </div>
 
+    <!-- STEG 1: LOGGA DET SLAG DU PRECIS SLOG -->
     <div id="shot-creation-section" class="section">
         <div class="section-title">1. Vad slog du precis?</div>
         <div class="grid" id="club-grid">
@@ -187,12 +192,13 @@
         </div>
     </div>
 
+    <!-- STEG 2: BOLLENS LANDNINGSLÄGE -->
     <div id="shot-landing-section" class="section hidden" style="border-color: var(--accent);">
         <div class="section-title" style="color: var(--accent);">3. Framme vid bollen: Var landade den?</div>
         <div class="grid" id="result-grid">
             <button class="wide-btn" onclick="selectResult(this, 'Fairway')">⛳ Fairway</button>
             <button class="wide-btn" onclick="selectResult(this, 'Green')">🟢 Green</button>
-            <button class="wide-btn" onclick="selectResult('Rough Vänster')">🌲 Vänster</button>
+            <button class="wide-btn" onclick="selectResult(this, 'Rough Vänster')">🌲 Vänster</button>
             <button class="wide-btn" onclick="selectResult(this, 'Rough Höger')">🌲 Höger</button>
             <button class="wide-btn" onclick="selectResult(this, 'Bunker')">🏖️ Bunker</button>
             <button class="wide-btn" onclick="selectResult(this, 'Plikt/Drop')">💧 Plikt</button>
@@ -202,6 +208,7 @@
         </div>
     </div>
 
+    <!-- GREEN / PUTTNING -->
     <div id="putt-section" class="section hidden">
         <div class="section-title">Puttning</div>
         <div class="counter">
@@ -221,6 +228,7 @@
         </div>
     </div>
 
+    <!-- MONITOR / AKTUELL LOGG -->
     <div class="section">
         <div class="section-title">Aktuell runda</div>
         <div id="log">Inga slag sparade på aktuellt hål.</div>
@@ -233,6 +241,7 @@
         <button class="action-btn" style="background-color: #1565c0; width:100%; font-size:15px; padding:12px; margin-top:10px;" onclick="archiveCurrentRound()">💾 SPARA OCH AVSLUTA RUNDAN</button>
     </div>
 
+    <!-- HISTORIKEN -->
     <div class="section">
         <div class="section-title">Sparade rundor i telefonen</div>
         <div id="history-list">Inga sparade rundor än.</div>
@@ -312,7 +321,6 @@
 
         function selectResult(element, res) {
             document.querySelectorAll('#result-grid button').forEach(b => b.classList.remove('blue-selected'));
-            // Hanterar både element och text-strängar
             if(element && element.classList) element.classList.add('blue-selected');
             currentSelection.result = res;
         }
@@ -342,7 +350,7 @@
                     quality: currentSelection.quality,
                     startLat: position.coords.latitude,
                     startLon: position.coords.longitude,
-                    startAcc: Math.round(position.coords.accuracy),
+                    startAcc: Math.round(position.coords.accuracy), // Spara start-felmarginal
                     endLat: null,
                     endLon: null,
                     endAcc: null,
@@ -368,7 +376,7 @@
                 
                 currentShot.endLat = position.coords.latitude;
                 currentShot.endLon = position.coords.longitude;
-                currentShot.endAcc = Math.round(position.coords.accuracy);
+                currentShot.endAcc = Math.round(position.coords.accuracy); // Spara slut-felmarginal
                 currentShot.result = currentSelection.result;
                 currentShot.calculatedDistance = getDistance(currentShot.startLat, currentShot.startLon, currentShot.endLat, currentShot.endLon);
                 
@@ -419,22 +427,16 @@
             }, () => { alert('GPS-fel.'); }, { enableHighAccuracy: true, timeout: 5000 });
         }
 
-        // NY FUNKTION: Ångra senaste slaget
         function undoLastShot() {
             if (shots.length === 0) { alert("Det finns inga slag att ångra."); return; }
-            
             if (confirm("Vill du ta bort det allra senaste registrerade slaget?")) {
                 shots.pop();
                 localStorage.setItem('golf_current_shots', JSON.stringify(shots));
-                
-                // Återställ gränssnittsvyn ifall man var mitt i en landningsregistrering
                 document.getElementById('shot-creation-section').classList.remove('hidden');
                 document.getElementById('shot-landing-section').classList.add('hidden');
                 document.getElementById('putt-section').classList.add('hidden');
-                
                 currentSelection = { club: null, quality: null, result: null, putts: 2, puttDist: null };
                 document.querySelectorAll('button').forEach(b => b.classList.remove('selected', 'blue-selected'));
-                
                 updateLog();
             }
         }
@@ -443,26 +445,22 @@
             const logDiv = document.getElementById('log');
             let parText = holePars[currentHole] ? `(Par ${holePars[currentHole]})` : '(Par ej valt)';
             
-            // Räkna ut FIR och GIR för hålet hittills i loggfönstret
             let holeShots = shots.filter(s => s.hole === currentHole);
             let firText = "FIR: -";
             let girText = "GIR: -";
             
             if (holePars[currentHole]) {
                 let p = holePars[currentHole];
-                // FIR: Endast på Par 4/5 och slag 1
                 let firstShot = holeShots.find(s => s.shotNum === 1);
                 if (firstShot && p > 3) {
                     firText = firstShot.result === 'Fairway' ? 'FIR: ✅' : 'FIR: ❌';
                 }
                 
-                // GIR: Kolla om bollen nått green på rätt antal slag
                 let onGreenShot = holeShots.find(s => s.result === 'Green');
                 if (onGreenShot) {
                     let maxShotsForGir = p - 2;
                     girText = onGreenShot.shotNum <= maxShotsForGir ? 'GIR: ✅' : 'GIR: ❌';
                 } else if (holeShots.some(s => s.putts !== undefined)) {
-                    // Om hålet är avslutat men landningen inte sattes till green manuellt
                     let totalStrokesBeforePutting = holeShots.length; 
                     let maxShotsForGir = p - 2;
                     girText = totalStrokesBeforePutting <= maxShotsForGir ? 'GIR: ✅' : 'GIR: ❌';
@@ -479,7 +477,8 @@
             
             holeShots.forEach(s => {
                 html += `#${s.shotNum}: ${s.club} (${s.quality})`;
-                if(s.calculatedDistance > 0) html += ` -> ${s.calculatedDistance}m`;
+                // Återinförd felmarginal i skärmloggen (± m)
+                if(s.calculatedDistance > 0) html += ` -> ${s.calculatedDistance}m (±${(s.startAcc || 0) + (s.endAcc || 0)}m)`;
                 if(s.result) html += ` [Landa: ${s.result}]`;
                 if(s.putts !== undefined) html += ` (${s.putts} puttar)`;
                 html += `\n`;
@@ -491,46 +490,31 @@
             if (shots.length === 0) { alert("Det finns inga slag att spara."); return; }
             let course = document.getElementById('course-name').value || 'Okänd bana';
             if (confirm(`Vill du arkivera rundan på "${course}"?`)) {
-                let newRound = { 
-                    id: Date.now(), 
-                    date: new Date().toISOString().slice(0,10), 
-                    course: course, 
-                    data: shots,
-                    pars: holePars
-                };
+                let newRound = { id: Date.now(), date: new Date().toISOString().slice(0,10), course: course, data: shots, pars: holePars };
                 archivedRounds.push(newRound);
                 localStorage.setItem('golf_archived_rounds', JSON.stringify(archivedRounds));
-                
-                // Nollställ allt
-                shots = [];
-                holePars = {};
+                shots = []; holePars = {};
                 localStorage.removeItem('golf_current_shots');
                 localStorage.removeItem('golf_current_pars');
                 currentHole = 1;
                 document.getElementById('hole-number').textContent = currentHole;
                 document.getElementById('course-name').value = "";
                 localStorage.removeItem('golf_course_name');
-                
                 document.getElementById('shot-creation-section').classList.remove('hidden');
                 document.getElementById('shot-landing-section').classList.add('hidden');
                 document.getElementById('putt-section').classList.add('hidden');
-                
-                updateParUI();
-                updateLog();
-                updateHistoryList();
+                updateParUI(); updateLog(); updateHistoryList();
             }
         }
 
         function clearCurrentShots() {
             if(confirm("Vill du Rensa och Radera hela den pågående rundan? (Detta rör INTE din sparade historik)")) {
-                shots = [];
-                holePars = {};
+                shots = []; holePars = {};
                 localStorage.removeItem('golf_current_shots');
                 localStorage.removeItem('golf_current_pars');
                 currentHole = 1;
                 document.getElementById('hole-number').textContent = currentHole;
-                updateParUI();
-                updateLog();
+                updateParUI(); updateLog();
             }
         }
 
@@ -550,20 +534,18 @@
             let round = archivedRounds.find(r => r.id === roundId);
             if(!round) return;
             
-            let csv = "Bana,Datum,Hal,Hal_Par,SlagNummer,Klubba,Traff,Langd(m),Landningslage,FIR,GIR,AntalPuttar,PuttDistans\n";
+            // Återinförda kolumner för felmarginaler i CSV-exporten
+            let csv = "Bana,Datum,Hal,Hal_Par,SlagNummer,Klubba,Traff,Langd(m),StartGPS_Felmarginal(m),SlutGPS_Felmarginal(m),TotalMaxAvvikelse(m),Landningslage,FIR,GIR,AntalPuttar,PuttDistans\n";
             
-            // Loopa igenom alla slag i rundan för exporten
             round.data.forEach(s => {
                 let p = s.par || 4;
                 let fir = "N/A";
-                let gir = "❌";
+                let gir = "NEJ";
                 
-                // Beräkna FIR för raden
                 if (p > 3 && s.shotNum === 1) {
                     fir = s.result === 'Fairway' ? "JA" : "NEJ";
                 }
                 
-                // Beräkna GIR för hålet
                 let allShotsThisHole = round.data.filter(x => x.hole === s.hole);
                 let greenShot = allShotsThisHole.find(x => x.result === 'Green');
                 let maxGirShots = p - 2;
@@ -575,7 +557,9 @@
                     if(totalBeforePutt <= maxGirShots) gir = "JA";
                 }
                 
-                csv += `"${round.course}",${round.date},${s.hole},${p},${s.shotNum},${s.club},${s.quality},${s.calculatedDistance},${s.result || ''},${fir},${gir},${s.putts || ''},${s.puttDist || ''}\n`;
+                let totalError = (s.startAcc || 0) + (s.endAcc || 0);
+                
+                csv += `"${round.course}",${round.date},${s.hole},${p},${s.shotNum},${s.club},${s.quality},${s.calculatedDistance},${s.startAcc || 0},${s.endAcc || 0},${totalError},${s.result || ''},${fir},${gir},${s.putts || ''},${s.puttDist || ''}\n`;
             });
             
             let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
