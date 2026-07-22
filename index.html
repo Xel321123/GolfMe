@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Golf Tracker v7.0</title>
+    <title>Golf Tracker v7.1</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
@@ -219,11 +219,12 @@
             <div class="section-title">3. Var landade bollen?</div>
             <div class="grid" id="result-grid">
                 <button class="wide-btn" onclick="selectResult(this, 'Fairway')">⛳ Fairway</button>
+                <button class="wide-btn" style="background-color: #2e7d32;" onclick="selectResult(this, 'Green')">🟢 Green</button>
                 <button class="wide-btn" onclick="selectResult(this, 'Rough Vänster')">🌲 Vänster</button>
                 <button class="wide-btn" onclick="selectResult(this, 'Rough Höger')">🌲 Höger</button>
                 <button class="wide-btn" onclick="selectResult(this, 'Bunker')">🏖️ Bunker</button>
                 <button class="wide-btn" style="background-color: #d32f2f;" onclick="selectResult(this, '🚨 Out of Bounds')">🚨 OoB (+1 Slå om)</button>
-                <button class="wide-btn" style="background-color: #1976d2;" onclick="selectResult(this, '💧 Plikt/Hinder')">💧 Plikt (+1 Dropp)</button>
+                <button class="wide-btn full-btn" style="background-color: #1976d2;" onclick="selectResult(this, '💧 Plikt/Hinder')">💧 Plikt (+1 Dropp)</button>
             </div>
 
             <button class="action-btn full-btn" style="width:100%; margin-top:10px; background-color:#2e7d32;" onclick="confirmLanding()">Spara Landning ➔</button>
@@ -476,8 +477,15 @@
             }
 
             saveShots();
-            activeStep = 'NEXT_ACTION';
-            renderStepUI();
+
+            // OM MAN LANDADE PÅ GREEN: HOPPA DIREKT TILL PUTT-MENYN!
+            if (lastShot.result === 'Green') {
+                switchToGreenMode();
+            } else {
+                activeStep = 'NEXT_ACTION';
+                renderStepUI();
+            }
+            
             updateLog();
         }
 
@@ -604,7 +612,7 @@
                 if (activeStep === 'CLUB_QUALITY') activeStep = 'START';
                 else if (activeStep === 'LANDING') activeStep = 'CLUB_QUALITY';
                 else if (activeStep === 'NEXT_ACTION') activeStep = 'LANDING';
-                else if (activeStep === 'CHIP' || activeStep === 'GREEN') activeStep = 'NEXT_ACTION';
+                else if (activeStep === 'CHIP' || activeStep === 'GREEN') activeStep = 'LANDING';
 
                 let holeShots = shots.filter(s => s.hole === currentHole);
                 if (holeShots.length > 0 && !holeShots[holeShots.length - 1].endLat && activeStep === 'START') {
@@ -682,7 +690,6 @@
                 let puttShot = holeShots.find(s => s.putts !== undefined);
                 let puttsOnThisHole = puttShot ? puttShot.putts : 0;
                 
-                // Slag exklusive själva putt-raden + antalet puttar
                 let normalShotsCount = holeShots.filter(s => s.putts === undefined).length;
                 let holeTotalStrokes = normalShotsCount + puttsOnThisHole;
                 
@@ -765,7 +772,6 @@
                 let tx = db.transaction("rounds", "readwrite");
                 tx.objectStore("rounds").add(newRound);
                 tx.oncomplete = () => {
-                    // Automatisk JSON export vid sparning
                     exportJSONBackup();
 
                     shots = []; holePars = {};
@@ -855,7 +861,6 @@
                 link.href = URL.createObjectURL(blob);
                 link.setAttribute("download", `golf_${round.course}_${round.date}.csv`);
                 document.body.appendChild(link);
-                link.click();
                 link.remove();
             };
         }
