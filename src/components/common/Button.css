@@ -1,0 +1,51 @@
+.gm-button {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 12px 4px;
+  font-size: 15px;
+  font-weight: bold;
+  touch-action: manipulation;
+  transition: filter 0.1s ease;
+}
+
+.gm-button:hover {
+  filter: brightness(1.15);
+}
+
+.gm-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.gm-button--selected {
+  background-color: var(--primary);
+  border-color: #fff;
+}
+
+.gm-button--primary {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 16px;
+  font-size: 18px;
+}
+
+.gm-button--danger {
+  background-color: var(--danger);
+  color: #fff;
+}
+
+.gm-button--accent {
+  background-color: var(--accent);
+  color: #fff;
+}
+
+.gm-button--ghost {
+  background-color: #333;
+  border-color: #444;
+}
+
+.gm-button--full {
+  width: 100%;
+}

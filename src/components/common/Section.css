@@ -1,0 +1,28 @@
+.gm-section {
+  background: var(--card-bg);
+  padding: 10px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #2d2d2d;
+}
+
+.gm-section__title {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.gm-section__title--green {
+  color: var(--primary);
+}
+
+.gm-section__title--blue {
+  color: var(--accent);
+}
+
+.gm-section__title--orange {
+  color: var(--warning);
+}

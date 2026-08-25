@@ -1,0 +1,43 @@
+.gm-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #252525;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  font-size: 13px;
+  gap: 8px;
+}
+
+.gm-history-item__actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.gm-backup-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.gm-backup-grid .gm-button {
+  font-size: 12px;
+  padding: 10px;
+}
+
+.gm-selector-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.gm-selector-row input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
