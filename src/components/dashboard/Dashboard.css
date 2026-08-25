@@ -1,0 +1,62 @@
+.gm-momentum {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.gm-momentum__cell {
+  background: #111;
+  border-radius: 6px;
+  padding: 4px 2px;
+  text-align: center;
+  font-size: 11px;
+}
+
+.gm-momentum__hole {
+  display: block;
+  color: var(--muted);
+}
+
+.gm-momentum__score {
+  font-weight: bold;
+  color: #fff;
+}
+
+.gm-distribution {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gm-distribution__row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.gm-distribution__label {
+  min-width: 64px;
+  color: #aaa;
+}
+
+.gm-distribution__bar-track {
+  flex: 1;
+  height: 10px;
+  background: #111;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.gm-distribution__bar {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 5px;
+}
+
+.gm-distribution__count {
+  min-width: 74px;
+  text-align: right;
+  color: #ddd;
+}

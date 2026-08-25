@@ -1,0 +1,94 @@
+/* Shared styles for round-view components. */
+.gm-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 0 10px;
+  border-bottom: 1px solid #2d2d2d;
+  margin-bottom: 8px;
+}
+
+.gm-setup__label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.gm-setup__input {
+  width: 100%;
+  background: #2b2b2b;
+  border: 1px solid #444;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.gm-setup__input:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.gm-hole-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.gm-hole-nav .gm-button {
+  min-width: 60px;
+  padding: 8px 20px;
+  font-size: 20px;
+}
+
+.gm-gps {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.gm-gps__dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: grey;
+  margin-right: 5px;
+}
+
+.gm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.gm-grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gm-grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.gm-grid .gm-button {
+  padding: 12px 2px;
+}
+
+.gm-wide {
+  grid-column: span 2;
+}
+
+.gm-full {
+  grid-column: span 4;
+}
+
+.gm-wizard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}

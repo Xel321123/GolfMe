@@ -1,0 +1,26 @@
+.gm-stat-row {
+  font-size: 13px;
+  padding: 5px 0;
+  border-bottom: 1px solid #2a2a2a;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.gm-stat-row:last-child {
+  border-bottom: none;
+}
+
+.gm-stat-row__label {
+  color: #aaa;
+}
+
+.gm-stat-row__value {
+  font-weight: bold;
+  color: #fff;
+  text-align: right;
+}
+
+.gm-stat-row__value--highlight {
+  color: var(--accent);
+}

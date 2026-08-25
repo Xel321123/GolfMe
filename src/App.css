@@ -1,0 +1,40 @@
+.gm-app {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.gm-app__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.gm-app__header h1 {
+  font-size: 26px;
+  margin: 6px 0 0;
+}
+
+.gm-app__nav {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.gm-app__tab {
+  flex: 1;
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 10px 4px;
+  font-size: 14px;
+  font-weight: bold;
+  touch-action: manipulation;
+}
+
+.gm-app__tab--active {
+  background: var(--primary);
+  border-color: #fff;
+}

@@ -1,0 +1,41 @@
+.gm-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.gm-dialog {
+  background: var(--card-bg);
+  border: 1px solid #3a3a3a;
+  border-radius: 16px;
+  padding: 18px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.gm-dialog__title {
+  margin: 0 0 8px;
+  font-size: 17px;
+}
+
+.gm-dialog__message {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #bbb;
+  line-height: 1.4;
+}
+
+.gm-dialog__actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.gm-dialog__actions .gm-button {
+  min-width: 90px;
+}
