@@ -1,0 +1,41 @@
+name: CI
+
+# Runs the full quality gate (lint, typecheck, tests, build) on every push
+# and on every pull request targeting main. The workflow file lives on the
+# head branch, so PRs see their own checks before merge.
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  quality:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Production build (incl. PWA + 404 fallback)
+        run: npm run build

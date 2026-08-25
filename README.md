@@ -125,14 +125,21 @@ worker registration are all base-resolved at build time. A `404.html`
 fallback (copied from `index.html` by `npm run build`) makes every unknown
 path — online and offline — resolve to the app shell.
 
+**A deploy workflow is included**: [`.github/workflows/pages.yml`](.github/workflows/pages.yml)
+builds and deploys `dist/` to Pages on every push to `main`. Enable it once
+in the repo settings: **Settings → Pages → Source: GitHub Actions** (the
+first deploy publishes at `https://<owner>.github.io/GolfMe/`).
+
+**CI is included too**: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+runs the full quality gate (lint → typecheck → tests → build) on every push
+and every PR against `main`.
+
+Manual/local equivalent:
+
 ```bash
 npm run build          # tsc + vite build + dist/404.html fallback
-# Deploy the dist/ folder to the Pages branch/environment of your choice.
+npm run preview        # serve the build locally and verify
 ```
-
-Options: push `dist/` to the `gh-pages` branch, or use a workflow with
-`actions/upload-pages-artifact` + `actions/deploy-pages` (Pages → Deploy
-from a branch, folder `/`). Verify with `npm run preview`.
 
 > Note: `npm run icons` regenerates `public/icons/` from
 > `scripts/generate-icons.mjs` (dependency-free PNG encoder) — commit any
