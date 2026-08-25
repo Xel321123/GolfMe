@@ -29,6 +29,17 @@ export default tseslint.config(
     },
   },
   {
+    // Node build/utility scripts (icons generator, 404 fallback copier).
+    files: ['scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+  },
+  {
     // Portability guard: the framework-agnostic core must stay platform-neutral.
     files: [
       'src/domain/**/*.ts',

@@ -22,6 +22,9 @@ npm run build      # tsc + vite production build
 
 ## Features
 
+- **Progressive Web App** — installable (manifest + 192/512/maskable icons),
+  fully offline once visited (Workbox precaches the whole app shell), and
+  auto-updating on new deploys.
 - **Shot-recording wizard** — per-shot club/quality/landing flow with GPS
   distance tracking (ported from the legacy v7.1 UX), chipping editor, and
   putting counter.
@@ -112,6 +115,28 @@ bucket, never misread.
 4. Reuse `src/hooks` unchanged (React-only, no DOM).
 5. Rebuild `src/components` with RN primitives; ship via EAS/Gradle →
    APK/AAB. **Business logic is never rewritten.**
+
+## Deployment — GitHub Pages
+
+The build is pre-configured for the GitHub Pages subpath
+(`https://<owner>.github.io/GolfMe/`): `vite.config.ts` sets
+`base: '/GolfMe/'`, so asset URLs, the web app manifest, and the service
+worker registration are all base-resolved at build time. A `404.html`
+fallback (copied from `index.html` by `npm run build`) makes every unknown
+path — online and offline — resolve to the app shell.
+
+```bash
+npm run build          # tsc + vite build + dist/404.html fallback
+# Deploy the dist/ folder to the Pages branch/environment of your choice.
+```
+
+Options: push `dist/` to the `gh-pages` branch, or use a workflow with
+`actions/upload-pages-artifact` + `actions/deploy-pages` (Pages → Deploy
+from a branch, folder `/`). Verify with `npm run preview`.
+
+> Note: `npm run icons` regenerates `public/icons/` from
+> `scripts/generate-icons.mjs` (dependency-free PNG encoder) — commit any
+> regenerated icons.
 
 ## QA
 
